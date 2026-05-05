@@ -1,638 +1,462 @@
 @extends('layouts.app')
 
-@section('title', 'Beranda - Kecamatan Buahbatu')
+@section('title', $site_name ?? 'Kabupaten Mukomuko')
 
 @section('content')
-<!-- Hero Section -->
-<section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden gradient-primary">
-    <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute -top-20 -right-20 w-64 h-64 bg-yellow-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
-        <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-delay: 2s;"></div>
-    </div>
-    
-    <div class="container mx-auto px-5 relative z-10 text-center text-white py-12">
-        <div class="animate-fadeUp">
-            <span class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium mb-5">
-                <i class="fas fa-landmark mr-1.5 text-xs"></i> Portal Resmi Kecamatan Buahbatu
-            </span>
-            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight">
-                Kecamatan <span class="text-yellow-300">Buahbatu</span>
-            </h1>
-            <p class="text-base sm:text-lg md:text-xl mb-6 text-white/90 max-w-2xl mx-auto px-4">
-                Melayani dengan Hati, Menuju Bandung Juara
-            </p>
-            <div class="flex flex-col sm:flex-row gap-3 justify-center px-4">
-                <a href="#sambutan" class="group bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-semibold py-3 px-6 rounded-full transition-all duration-300 inline-flex items-center justify-center gap-2 shadow-lg active:scale-95 text-sm sm:text-base">
-                    <span>Sambutan Camat</span>
-                    <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
-                </a>
-                <a href="#layanan" class="group bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 inline-flex items-center justify-center gap-2 border border-white/30 active:scale-95 text-sm sm:text-base">
-                    <span>Layanan Publik</span>
-                    <i class="fas fa-info-circle text-xs"></i>
-                </a>
-            </div>
-        </div>
-        
-        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
-            <a href="#sambutan" class="text-white/70 hover:text-white transition w-8 h-8 flex items-center justify-center">
-                <i class="fas fa-chevron-down text-lg"></i>
-            </a>
-        </div>
-    </div>
-</section>
+@php
+    $site_name = \App\Models\Setting::get('site_name', 'Kabupaten Mukomuko');
+    $site_tagline = \App\Models\Setting::get('site_tagline', 'Provinsi Bengkulu');
+    $heroImage = \App\Models\Setting::get('hero_image');
+@endphp
 
-<!-- Stats Section -->
-<section class="py-12 bg-white relative -mt-8 z-20 px-4">
-    <div class="container mx-auto">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-            <div class="stat-card rounded-xl sm:rounded-2xl p-3 sm:p-5 text-center text-white shadow-lg">
-                <i class="fas fa-users text-xl sm:text-3xl mb-1.5 sm:mb-2"></i>
-                <div class="text-lg sm:text-2xl font-bold">120K+</div>
-                <div class="text-[10px] sm:text-xs opacity-90">Penduduk</div>
-            </div>
-            <div class="stat-card rounded-xl sm:rounded-2xl p-3 sm:p-5 text-center text-white shadow-lg">
-                <i class="fas fa-building text-xl sm:text-3xl mb-1.5 sm:mb-2"></i>
-                <div class="text-lg sm:text-2xl font-bold">4</div>
-                <div class="text-[10px] sm:text-xs opacity-90">Kelurahan</div>
-            </div>
-            <div class="stat-card rounded-xl sm:rounded-2xl p-3 sm:p-5 text-center text-white shadow-lg">
-                <i class="fas fa-file-alt text-xl sm:text-3xl mb-1.5 sm:mb-2"></i>
-                <div class="text-lg sm:text-2xl font-bold">25+</div>
-                <div class="text-[10px] sm:text-xs opacity-90">Layanan</div>
-            </div>
-            <div class="stat-card rounded-xl sm:rounded-2xl p-3 sm:p-5 text-center text-white shadow-lg">
-                <i class="fas fa-smile text-xl sm:text-3xl mb-1.5 sm:mb-2"></i>
-                <div class="text-lg sm:text-2xl font-bold">98%</div>
-                <div class="text-[10px] sm:text-xs opacity-90">Kepuasan</div>
-            </div>
+<!-- HOME PAGE -->
+<div id="page-home" class="page-section active">
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        @if($heroImage && file_exists(public_path('storage/'.$heroImage)))
+        <div class="absolute inset-0">
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('storage/'.$heroImage) }}');"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80"></div>
         </div>
-    </div>
-</section>
-
-<!-- Sambutan Camat -->
-<section id="sambutan" class="py-12 md:py-16 bg-gray-50 px-4">
-    <div class="container mx-auto max-w-6xl">
-        <div class="text-center mb-8 md:mb-10">
-            <span class="text-blue-600 font-semibold text-xs uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">Sambutan</span>
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mt-3">Kata Sambutan</h2>
-            <p class="text-gray-500 text-sm mt-2 max-w-md mx-auto">Camat Buahbatu menyampaikan pesan untuk masyarakat</p>
+        @else
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-20 -right-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
+            <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/80 to-slate-900"></div>
         </div>
+        @endif
         
-        <div class="flex flex-col lg:flex-row gap-6 md:gap-8 items-start">
-            <div class="lg:w-1/3 w-full">
-                <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-                    <div class="gradient-primary p-5 text-center">
-                        <div class="w-24 h-24 sm:w-28 sm:h-28 mx-auto bg-white rounded-full flex items-center justify-center border-4 border-yellow-400 shadow-lg">
-                            <i class="fas fa-user-tie text-4xl sm:text-5xl text-blue-900"></i>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="animate-fadeUp">
+                <span class="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-sm mb-6">
+                    <i class="fas fa-landmark mr-2 text-blue-400"></i> Portal Resmi {{ $site_name }}
+                </span>
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                    <span class="gradient-text">{{ $site_name }}</span>
+                </h1>
+                <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+                    {{ $site_tagline }}
+                </p>
+                <div class="flex gap-4 justify-center flex-wrap">
+                    <button onclick="showPage('profil-tentang')" class="btn-primary">Profil Kecamatan <i class="fas fa-arrow-right ml-2"></i></button>
+                    <button onclick="showPage('layanan')" class="btn-outline">Layanan Publik <i class="fas fa-info-circle ml-2"></i></button>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+                <i class="fas fa-chevron-down text-gray-400 text-xl"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="stat-card rounded-2xl p-6 text-center scroll-reveal">
+                    <i class="fas fa-users text-3xl text-blue-400 mb-3"></i>
+                    <div class="stat-number text-4xl font-bold">{{ $penduduk_display ?? '200K+' }}</div>
+                    <div class="text-gray-400 mt-1">Penduduk</div>
+                </div>
+                <div class="stat-card rounded-2xl p-6 text-center scroll-reveal">
+                    <i class="fas fa-building text-3xl text-blue-400 mb-3"></i>
+                    <div class="stat-number text-4xl font-bold">{{ $kecamatan_display ?? '15' }}</div>
+                    <div class="text-gray-400 mt-1">Desa</div>
+                </div>
+                <div class="stat-card rounded-2xl p-6 text-center scroll-reveal">
+                    <i class="fas fa-file-alt text-3xl text-blue-400 mb-3"></i>
+                    <div class="stat-number text-4xl font-bold">{{ $layanan_display ?? '50+' }}</div>
+                    <div class="text-gray-400 mt-1">Layanan</div>
+                </div>
+                <div class="stat-card rounded-2xl p-6 text-center scroll-reveal">
+                    <i class="fas fa-smile text-3xl text-blue-400 mb-3"></i>
+                    <div class="stat-number text-4xl font-bold">{{ $kepuasan_display ?? '95%' }}</div>
+                    <div class="text-gray-400 mt-1">Kepuasan</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12 scroll-reveal">
+                <span class="text-blue-400 text-sm uppercase tracking-wider">Sambutan</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-2 gradient-text">Kata Sambutan</h2>
+                <p class="text-gray-400 mt-3">Pesan dari camat {{ $site_name }}</p>
+            </div>
+            
+            @if($profil && isset($profil->nama_camat))
+            <div class="max-w-5xl mx-auto glass-card rounded-3xl p-8 scroll-reveal">
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="text-center">
+                        <div class="w-32 h-32 gradient-primary rounded-full flex items-center justify-center mx-auto shadow-xl animate-float">
+                            <i class="fas fa-user-tie text-5xl text-white"></i>
                         </div>
-                        <h3 class="font-bold text-lg sm:text-xl mt-3 text-white">EDI JUHENDI, S.IP., MM</h3>
-                        <p class="text-white/80 text-sm">Camat Buahbatu</p>
+                        <h3 class="font-bold text-xl mt-4">{{ $profil->nama_camat }}</h3>
+                        <p class="text-gray-400 text-sm">Camat {{ $site_name }}</p>
+                        @if(isset($profil->nip_camat))
+                        <div class="text-xs text-gray-500 mt-1">NIP. {{ $profil->nip_camat }}</div>
+                        @endif
                     </div>
-                    <div class="p-4 sm:p-5 text-sm">
-                        <div class="flex justify-between py-2 border-b border-gray-100">
-                            <span class="text-gray-500"><i class="fas fa-calendar-alt mr-2 text-blue-500"></i> Menjabat</span>
-                            <span class="font-semibold">2021</span>
+                    <div class="flex-1">
+                        <i class="fas fa-quote-left text-3xl text-blue-500/30 mb-4"></i>
+                        <p class="text-gray-300 leading-relaxed">{{ $profil->sambutan ?? 'Belum ada sambutan. Silakan isi di admin panel.' }}</p>
+                        @if(isset($profil->sambutan))
+                        <div class="mt-5 p-4 bg-blue-500/10 rounded-xl border-l-4" style="border-left-color: var(--primary);">
+                            <p class="italic text-blue-300">"{{ $profil->moto ?? 'Bersama Masyarakat, Kita Wujudkan ' . $site_name . ' yang Maju, Mandiri, dan Berdaya Saing' }}"</p>
                         </div>
-                        <div class="flex justify-between pt-2">
-                            <span class="text-gray-500"><i class="fas fa-graduation-cap mr-2 text-blue-500"></i> Pendidikan</span>
-                            <span class="font-semibold">S2 Manajemen</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @else
+            <div class="glass-card rounded-3xl p-8 text-center">
+                <p class="text-gray-400">Belum ada data sambutan. Silakan isi di admin panel.</p>
+            </div>
+            @endif
+        </div>
+    </section>
+
+    <!-- Layanan Unggulan -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12 scroll-reveal">
+                <span class="text-blue-400 text-sm uppercase tracking-wider">Layanan</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-2 gradient-text">Layanan Unggulan</h2>
+                <p class="text-gray-400 mt-3">Berbagai layanan untuk masyarakat</p>
+            </div>
+            
+            @if($layanan && $layanan->count() > 0)
+            <div class="grid md:grid-cols-3 gap-6">
+                @foreach($layanan as $item)
+                <div class="glass-card rounded-2xl p-6 text-center scroll-reveal service-card">
+                    <div class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="{{ $item->icon }} text-2xl text-white"></i></div>
+                    <h3 class="font-bold text-xl mb-2">{{ $item->nama }}</h3>
+                    <p class="text-gray-400">{{ $item->deskripsi }}</p>
+                </div>
+                @endforeach
+            </div>
+            @else
+            <div class="glass-card rounded-2xl p-8 text-center">
+                <p class="text-gray-400">Belum ada data layanan. Silakan isi di admin panel.</p>
+            </div>
+            @endif
+        </div>
+    </section>
+
+    <!-- Berita Terbaru -->
+    <section class="py-20 bg-white/5">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12 scroll-reveal">
+                <span class="text-blue-400 text-sm uppercase tracking-wider">Informasi</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-2 gradient-text">Berita Terbaru</h2>
+            </div>
+            
+            @if($berita && $berita->count() > 0)
+            <div class="grid md:grid-cols-3 gap-6">
+                @foreach($berita as $item)
+                <div class="glass-card rounded-2xl overflow-hidden scroll-reveal">
+                    <div class="w-full h-48 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                        @if($item->gambar && file_exists(public_path('storage/'.$item->gambar)))
+                        <img src="{{ asset('storage/'.$item->gambar) }}" class="w-full h-full object-cover">
+                        @else
+                        <i class="fas fa-newspaper text-4xl text-gray-600"></i>
+                        @endif
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-center gap-3 text-xs text-gray-400 mb-2">
+                            <span><i class="fas fa-calendar-alt mr-1"></i> {{ $item->created_at->format('d M Y') }}</span>
+                            <span><i class="fas fa-user mr-1"></i> {{ $item->penulis }}</span>
                         </div>
+                        <h3 class="font-bold text-lg mb-2">{{ $item->judul }}</h3>
+                        <p class="text-gray-400 text-sm mb-4">{{ Str::limit(strip_tags($item->isi), 100) }}</p>
+                        <a href="#" onclick="showPage('berita-detail', '{{ $item->slug }}')" class="text-blue-400 hover:text-blue-300">Baca Selengkapnya →</a>
                     </div>
                 </div>
+                @endforeach
+            </div>
+            @else
+            <div class="glass-card rounded-2xl p-8 text-center">
+                <p class="text-gray-400">Belum ada berita. Silakan isi di admin panel.</p>
+            </div>
+            @endif
+        </div>
+    </section>
+
+    <!-- Struktur Organisasi Preview -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12 scroll-reveal">
+                <span class="text-blue-400 text-sm uppercase tracking-wider">Organisasi</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-2 gradient-text">Struktur Organisasi</h2>
+                <p class="text-gray-400 mt-3">Jajaran pimpinan {{ $site_name }}</p>
             </div>
             
-            <div class="lg:w-2/3 w-full">
-                <div class="bg-white rounded-2xl shadow-xl p-5 sm:p-7 relative">
-                    <i class="fas fa-quote-left text-3xl sm:text-4xl text-blue-200 absolute top-4 right-4"></i>
-                    <div class="sambutan-text text-gray-600 text-sm sm:text-base space-y-3">
-                        <p>Segala Puji Syukur kita panjatkan kehadirat Allah SWT, Tuhan Yang Maha Kuasa, yang dengan rahmat-Nya telah mengantarkan Institusi ini menjadi semakin eksis sesuai dengan visi dan misi Pemerintah Kota Bandung.</p>
-                        <p>Dalam menghadapi tantangan zaman, terutama penyelenggaraan pemerintahan dalam rangka pelayanan publik sangat memerlukan Good Governance yang siap menjamin transparansi, efisiensi dan efektivitas melalui Teknologi Informasi dan Komunikasi (TIK).</p>
-                        <p>Sebagai informasi kepada masyarakat, kami berharap masyarakat memahami tentang keberadaan Kantor Kecamatan Buahbatu yang telah membuat berbagai kebijakan, kegiatan, program serta rencana strategis yang disusun sesuai kebutuhan.</p>
-                        <p>Kritik dan saran yang positif sangatlah kami harapkan, guna mencapai apa yang direncanakan bersama, membangun daerah yang kita cintai agar lebih baik.</p>
-                    </div>
-                    <div class="mt-5 p-4 bg-blue-50 rounded-xl border-l-4 border-blue-500">
-                        <p class="italic text-blue-800 text-sm sm:text-base font-medium">"Bersama Masyarakat, Kita Wujudkan Buahbatu yang Maju, Religius, dan Berdaya Saing"</p>
-                        <p class="text-xs text-blue-600 mt-2">- EDI JUHENDI, S.IP., MM</p>
-                    </div>
+            @if($struktur && $struktur->count() > 0)
+            <div class="flex flex-wrap justify-center gap-6 scroll-reveal">
+                @foreach($struktur->take(6) as $item)
+                <div class="glass-card rounded-2xl p-5 text-center w-48 hover:scale-105 transition">
+                    @if($item->gambar && file_exists(public_path('storage/'.$item->gambar)))
+                    <img src="{{ asset('storage/'.$item->gambar) }}" class="w-24 h-24 rounded-full object-cover mx-auto mb-3 border-2 border-blue-500">
+                    @else
+                    <div class="w-24 h-24 bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3"><i class="fas fa-user text-3xl text-gray-500"></i></div>
+                    @endif
+                    <h3 class="font-semibold text-sm">{{ $item->jabatan }}</h3>
+                    <p class="text-gray-400 text-xs mt-1">{{ $item->nama }}</p>
                 </div>
+                @endforeach
+            </div>
+            @else
+            <div class="glass-card rounded-2xl p-8 text-center">
+                <p class="text-gray-400">Belum ada data struktur organisasi. Silakan isi di admin panel.</p>
+            </div>
+            @endif
+            
+            <div class="text-center mt-8">
+                <button onclick="showPage('profil-struktur')" class="btn-outline">Lihat Struktur Lengkap →</button>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>
 
-<!-- Tentang Kecamatan -->
-<section id="profil-tentang" class="py-12 md:py-16 bg-white px-4">
-    <div class="container mx-auto max-w-5xl">
-        <div class="text-center mb-8">
-            <span class="text-blue-600 font-semibold text-xs uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">Profil</span>
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mt-3">Tentang Kecamatan</h2>
-        </div>
-        
-        <div class="bg-gray-50 rounded-2xl p-5 sm:p-7 shadow-md">
-            <div class="grid md:grid-cols-2 gap-6">
-                <div>
-                    <h3 class="text-lg sm:text-xl font-bold text-blue-800 mb-3">Sejarah Singkat</h3>
-                    <p class="text-gray-600 text-sm sm:text-base leading-relaxed">Kecamatan Buahbatu merupakan salah satu kecamatan di Kota Bandung, Jawa Barat. Memiliki luas wilayah ± 7,5 km² dengan jumlah penduduk sekitar 120.000 jiwa. Nama Buahbatu berasal dari sejarah daerah ini yang dahulu merupakan perkebunan buah-buahan dengan kondisi tanah berbatu.</p>
-                </div>
-                <div>
-                    <h3 class="text-lg sm:text-xl font-bold text-blue-800 mb-3">Visi & Misi</h3>
-                    <p class="text-gray-700 font-semibold text-sm">Visi:</p>
-                    <p class="text-gray-600 text-sm mb-3">"Terwujudnya Kecamatan Buahbatu yang Maju, Religius, dan Berdaya Saing"</p>
-                    <p class="text-gray-700 font-semibold text-sm">Misi:</p>
-                    <ul class="text-gray-600 text-sm space-y-1 list-disc list-inside">
-                        <li>Meningkatkan kualitas pelayanan publik</li>
-                        <li>Mengembangkan potensi SDM masyarakat</li>
-                        <li>Mewujudkan tata kelola pemerintahan yang baik</li>
-                    </ul>
-                </div>
+<!-- PROFIL - TENTANG -->
+<div id="page-profil-tentang" class="page-section">
+    <section class="py-20">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <div class="text-center mb-12 scroll-reveal">
+                <h1 class="text-4xl md:text-5xl font-bold gradient-text">Tentang {{ $site_name }}</h1>
+                <p class="text-gray-400 mt-3">Sejarah, Visi Misi</p>
             </div>
             
-            <div class="mt-6">
-                <h3 class="text-lg sm:text-xl font-bold text-blue-800 mb-3">Wilayah Administrasi</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <div class="bg-white p-3 rounded-xl text-center shadow-sm">
-                        <i class="fas fa-map-marker-alt text-blue-500 text-lg mb-1"></i>
-                        <p class="font-semibold text-sm">Sekejati</p>
-                    </div>
-                    <div class="bg-white p-3 rounded-xl text-center shadow-sm">
-                        <i class="fas fa-map-marker-alt text-blue-500 text-lg mb-1"></i>
-                        <p class="font-semibold text-sm">Margasari</p>
-                    </div>
-                    <div class="bg-white p-3 rounded-xl text-center shadow-sm">
-                        <i class="fas fa-map-marker-alt text-blue-500 text-lg mb-1"></i>
-                        <p class="font-semibold text-sm">Jati Sari</p>
-                    </div>
-                    <div class="bg-white p-3 rounded-xl text-center shadow-sm">
-                        <i class="fas fa-map-marker-alt text-blue-500 text-lg mb-1"></i>
-                        <p class="font-semibold text-sm">Cijawura</p>
-                    </div>
+            @if($profil)
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-card rounded-2xl p-6 scroll-reveal">
+                    <i class="fas fa-history text-3xl text-blue-400 mb-4"></i>
+                    <h2 class="text-xl font-bold mb-3">Sejarah Singkat</h2>
+                    <p class="text-gray-300 leading-relaxed">{{ $profil->sejarah ?? 'Belum ada data. Silakan isi di admin panel.' }}</p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 scroll-reveal">
+                    <i class="fas fa-bullseye text-3xl text-blue-400 mb-4"></i>
+                    <h2 class="text-xl font-bold mb-3">Visi & Misi</h2>
+                    {!! $profil->visi ? '<p class="font-semibold text-blue-300">Visi:</p><p class="text-gray-300 mb-4">' . $profil->visi . '</p>' : '<p class="text-gray-400 mb-4">Visi belum diisi</p>' !!}
+                    {!! $profil->misi ? '<p class="font-semibold text-blue-300">Misi:</p><div class="text-gray-300">' . $profil->misi . '</div>' : '<p class="text-gray-400">Misi belum diisi</p>' !!}
                 </div>
             </div>
+            @else
+            <div class="glass-card rounded-2xl p-8 text-center">
+                <p class="text-gray-400">Belum ada data profil. Silakan isi di admin panel.</p>
+            </div>
+            @endif
         </div>
-    </div>
-</section>
+    </section>
+</div>
 
-<!-- Struktur Organisasi -->
-<section id="profil-struktur" class="py-12 md:py-16 bg-gray-50 px-4">
-    <div class="container mx-auto max-w-5xl">
-        <div class="text-center mb-8">
-            <span class="text-blue-600 font-semibold text-xs uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">Profil</span>
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mt-3">Struktur Organisasi</h2>
-        </div>
-        
-        <div class="text-center mb-6">
-            <div class="bg-gradient-to-r from-blue-700 to-blue-600 text-white rounded-xl p-4 inline-block min-w-[200px] shadow-lg">
-                <i class="fas fa-user-tie text-2xl mb-1"></i>
-                <h3 class="font-bold text-base sm:text-lg">Camat Buahbatu</h3>
-                <p class="text-xs text-blue-100">EDI JUHENDI, S.IP., MM</p>
-            </div>
-        </div>
-        
-        <div class="flex justify-center mb-5">
-            <div class="w-px h-8 bg-gray-300"></div>
-        </div>
-        
-        <div class="text-center mb-8">
-            <div class="bg-white border-2 border-blue-500 rounded-xl p-3 inline-block min-w-[180px] shadow">
-                <i class="fas fa-user text-xl text-blue-600 mb-1"></i>
-                <h3 class="font-bold text-sm">Sekretaris Camat</h3>
-                <p class="text-xs text-gray-500">Drs. H. AGUS SALIM, M.Si</p>
-            </div>
-        </div>
-        
-        <div class="flex justify-center mb-6">
-            <div class="w-px h-8 bg-gray-300"></div>
-        </div>
-        
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-            <div class="bg-white rounded-xl p-3 text-center shadow-md">
-                <i class="fas fa-tasks text-xl text-blue-500 mb-1"></i>
-                <h3 class="font-bold text-xs sm:text-sm">Kasi Pemerintahan</h3>
-                <p class="text-[10px] text-gray-500">Dra. Hj. SITI N.</p>
-            </div>
-            <div class="bg-white rounded-xl p-3 text-center shadow-md">
-                <i class="fas fa-chart-line text-xl text-green-500 mb-1"></i>
-                <h3 class="font-bold text-xs sm:text-sm">Kasi Ekonomi</h3>
-                <p class="text-[10px] text-gray-500">Ir. BAMBANG S.</p>
-            </div>
-            <div class="bg-white rounded-xl p-3 text-center shadow-md">
-                <i class="fas fa-users text-xl text-purple-500 mb-1"></i>
-                <h3 class="font-bold text-xs sm:text-sm">Kasi Kesra</h3>
-                <p class="text-[10px] text-gray-500">Drs. H. ANDI K.</p>
-            </div>
-            <div class="bg-white rounded-xl p-3 text-center shadow-md">
-                <i class="fas fa-shield-alt text-xl text-orange-500 mb-1"></i>
-                <h3 class="font-bold text-xs sm:text-sm">Kasi Trantib</h3>
-                <p class="text-[10px] text-gray-500">Drs. RUDI H.</p>
-            </div>
-        </div>
-        
-        <div class="mt-6">
-            <h3 class="text-center font-bold text-base sm:text-lg text-blue-800 mb-4">Para Lurah</h3>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <div class="bg-blue-50 rounded-lg p-2 text-center">
-                    <p class="font-semibold text-xs sm:text-sm">Sekejati</p>
-                    <p class="text-[10px]">Drs. AHMAD F.</p>
-                </div>
-                <div class="bg-blue-50 rounded-lg p-2 text-center">
-                    <p class="font-semibold text-xs sm:text-sm">Margasari</p>
-                    <p class="text-[10px]">Hj. YENI N.</p>
-                </div>
-                <div class="bg-blue-50 rounded-lg p-2 text-center">
-                    <p class="font-semibold text-xs sm:text-sm">Jati Sari</p>
-                    <p class="text-[10px]">Drs. RACHMAT H.</p>
-                </div>
-                <div class="bg-blue-50 rounded-lg p-2 text-center">
-                    <p class="font-semibold text-xs sm:text-sm">Cijawura</p>
-                    <p class="text-[10px]">H. ENDANG S.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Layanan Unggulan -->
-<section id="layanan" class="py-12 md:py-16 gradient-primary px-4">
-    <div class="container mx-auto">
-        <div class="text-center mb-8">
-            <span class="text-yellow-300 font-semibold text-xs uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full">Layanan</span>
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3">Layanan <span class="text-yellow-300">Unggulan</span></h2>
-            <p class="text-white/80 text-sm mt-2 max-w-md mx-auto">Berbagai layanan publik untuk masyarakat</p>
-        </div>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            <div class="bg-white rounded-xl p-5 service-card cursor-pointer">
-                <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mb-4 shadow-md">
-                    <i class="fas fa-id-card text-white text-xl"></i>
-                </div>
-                <h3 class="text-base sm:text-lg font-bold text-gray-800 mb-2">Administrasi Kependudukan</h3>
-                <p class="text-gray-500 text-xs sm:text-sm mb-3">Pengurusan KTP, KK, Akta Kelahiran, dan dokumen kependudukan.</p>
-                <a href="#" class="text-blue-600 font-semibold text-xs inline-flex items-center gap-1">Selengkapnya <i class="fas fa-arrow-right text-[10px]"></i></a>
+<!-- PROFIL - STRUKTUR -->
+<div id="page-profil-struktur" class="page-section">
+    <section class="py-20">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-12 scroll-reveal">
+                <h1 class="text-4xl md:text-5xl font-bold gradient-text">Struktur Organisasi</h1>
+                <p class="text-gray-400 mt-3">Bagan struktur organisasi {{ $site_name }}</p>
             </div>
             
-            <div class="bg-white rounded-xl p-5 service-card cursor-pointer">
-                <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mb-4 shadow-md">
-                    <i class="fas fa-hand-holding-heart text-white text-xl"></i>
+            @if($struktur && $struktur->count() > 0)
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($struktur as $item)
+                <div class="glass-card rounded-2xl p-5 text-center hover:scale-105 transition">
+                    @if($item->gambar && file_exists(public_path('storage/'.$item->gambar)))
+                    <img src="{{ asset('storage/'.$item->gambar) }}" class="w-28 h-28 rounded-full object-cover mx-auto mb-3 border-3 border-blue-500">
+                    @else
+                    <div class="w-28 h-28 bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3"><i class="fas fa-user text-4xl text-gray-500"></i></div>
+                    @endif
+                    <h3 class="font-bold text-lg">{{ $item->jabatan }}</h3>
+                    <p class="text-gray-300">{{ $item->nama }}</p>
+                    @if($item->nip)<p class="text-xs text-gray-500 mt-1">NIP: {{ $item->nip }}</p>@endif
                 </div>
-                <h3 class="text-base sm:text-lg font-bold text-gray-800 mb-2">Bantuan Sosial</h3>
-                <p class="text-gray-500 text-xs sm:text-sm mb-3">Informasi dan penyaluran bantuan untuk warga kurang mampu.</p>
-                <a href="#" class="text-blue-600 font-semibold text-xs inline-flex items-center gap-1">Selengkapnya <i class="fas fa-arrow-right text-[10px]"></i></a>
+                @endforeach
+            </div>
+            @else
+            <div class="glass-card rounded-2xl p-8 text-center">
+                <p class="text-gray-400">Belum ada data struktur organisasi. Silakan isi di admin panel.</p>
+            </div>
+            @endif
+        </div>
+    </section>
+</div>
+
+<!-- LAYANAN -->
+<div id="page-layanan" class="page-section">
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12 scroll-reveal">
+                <h1 class="text-4xl md:text-5xl font-bold gradient-text">Layanan Publik</h1>
+                <p class="text-gray-400 mt-3">Berbagai layanan untuk masyarakat {{ $site_name }}</p>
             </div>
             
-            <div class="bg-white rounded-xl p-5 service-card cursor-pointer">
-                <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 shadow-md">
-                    <i class="fas fa-chalkboard-user text-white text-xl"></i>
+            @if($layanan && $layanan->count() > 0)
+            <div class="grid md:grid-cols-3 gap-6">
+                @foreach($layanan as $item)
+                <div class="glass-card rounded-2xl p-6 text-center scroll-reveal">
+                    <div class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="{{ $item->icon }} text-2xl text-white"></i></div>
+                    <h3 class="font-bold text-xl mb-2">{{ $item->nama }}</h3>
+                    <p class="text-gray-400">{{ $item->deskripsi }}</p>
                 </div>
-                <h3 class="text-base sm:text-lg font-bold text-gray-800 mb-2">Pemberdayaan Masyarakat</h3>
-                <p class="text-gray-500 text-xs sm:text-sm mb-3">Program pelatihan UMKM dan peningkatan kapasitas ekonomi.</p>
-                <a href="#" class="text-blue-600 font-semibold text-xs inline-flex items-center gap-1">Selengkapnya <i class="fas fa-arrow-right text-[10px]"></i></a>
+                @endforeach
             </div>
+            @else
+            <div class="glass-card rounded-2xl p-8 text-center">
+                <p class="text-gray-400">Belum ada data layanan. Silakan isi di admin panel.</p>
+            </div>
+            @endif
         </div>
-    </div>
-</section>
+    </section>
+</div>
 
-<!-- SOP Pelayanan -->
-<section id="layanan-sop" class="py-12 md:py-16 bg-white px-4">
-    <div class="container mx-auto max-w-4xl">
-        <div class="text-center mb-8">
-            <span class="text-blue-600 font-semibold text-xs uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">Layanan</span>
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mt-3">Standar Operasional Prosedur</h2>
+<!-- GALERI -->
+<div id="page-galeri" class="page-section">
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12 scroll-reveal">
+                <h1 class="text-4xl md:text-5xl font-bold gradient-text">Galeri Kegiatan</h1>
+                <p class="text-gray-400 mt-3">Dokumentasi kegiatan {{ $site_name }}</p>
+            </div>
+            
+            @if($galeri && $galeri->count() > 0)
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                @foreach($galeri as $item)
+                <div class="aspect-square bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl overflow-hidden hover:scale-105 transition cursor-pointer">
+                    @if($item->gambar && file_exists(public_path('storage/'.$item->gambar)))
+                    <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}" class="w-full h-full object-cover">
+                    @else
+                    <div class="w-full h-full flex items-center justify-center"><i class="fas fa-image text-4xl text-gray-600"></i></div>
+                    @endif
+                </div>
+                @endforeach
+            </div>
+            @else
+            <div class="glass-card rounded-2xl p-8 text-center">
+                <p class="text-gray-400">Belum ada gambar galeri. Silakan upload di admin panel.</p>
+            </div>
+            @endif
         </div>
-        
-        <div class="space-y-3">
-            <div class="bg-gray-50 rounded-xl p-4 hover:shadow-md transition">
-                <div class="flex items-start gap-3">
-                    <div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <span class="font-bold text-blue-600 text-sm">1</span>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-gray-800 text-sm sm:text-base">Prosedur Pembuatan KTP</h3>
-                        <p class="text-gray-500 text-xs mt-0.5">Pengurusan KTP baru atau perpanjangan</p>
-                        <a href="#" class="text-blue-500 text-xs mt-1 inline-block">Download SOP →</a>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-gray-50 rounded-xl p-4 hover:shadow-md transition">
-                <div class="flex items-start gap-3">
-                    <div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <span class="font-bold text-blue-600 text-sm">2</span>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-gray-800 text-sm sm:text-base">Prosedur Pembuatan KK</h3>
-                        <p class="text-gray-500 text-xs mt-0.5">Pembuatan Kartu Keluarga baru</p>
-                        <a href="#" class="text-blue-500 text-xs mt-1 inline-block">Download SOP →</a>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-gray-50 rounded-xl p-4 hover:shadow-md transition">
-                <div class="flex items-start gap-3">
-                    <div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <span class="font-bold text-blue-600 text-sm">3</span>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-gray-800 text-sm sm:text-base">Prosedur Pengurusan Izin Usaha</h3>
-                        <p class="text-gray-500 text-xs mt-0.5">Pengurusan izin usaha mikro dan kecil</p>
-                        <a href="#" class="text-blue-500 text-xs mt-1 inline-block">Download SOP →</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
+</div>
 
-<!-- Standar Pelayanan -->
-<section id="layanan-standar" class="py-12 md:py-16 bg-gray-50 px-4">
-    <div class="container mx-auto max-w-5xl">
-        <div class="text-center mb-8">
-            <span class="text-blue-600 font-semibold text-xs uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">Layanan</span>
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mt-3">Standar Pelayanan</h2>
+<!-- INFORMASI - KEGIATAN -->
+<div id="page-informasi-kegiatan" class="page-section">
+    <section class="py-20">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="text-center mb-12 scroll-reveal">
+                <h1 class="text-4xl md:text-5xl font-bold gradient-text">Info Kegiatan</h1>
+                <p class="text-gray-400 mt-3">Kegiatan terbaru di {{ $site_name }}</p>
+            </div>
+            
+            @if($kegiatan && $kegiatan->count() > 0)
+            @foreach($kegiatan as $item)
+            <div class="glass-card rounded-xl p-5 timeline-item mb-4">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="sm:w-32 text-center"><div class="gradient-primary rounded-lg p-2"><span class="text-2xl font-bold text-white">{{ $item->tanggal->format('d') }}</span><p class="text-sm text-white/80">{{ $item->tanggal->format('M Y') }}</p></div></div>
+                    <div><h3 class="font-bold text-xl mb-2">{{ $item->judul }}</h3><p class="text-gray-400">{{ Str::limit($item->deskripsi, 200) }}</p></div>
+                </div>
+            </div>
+            @endforeach
+            @else
+            <div class="glass-card rounded-2xl p-8 text-center">
+                <p class="text-gray-400">Belum ada data kegiatan. Silakan isi di admin panel.</p>
+            </div>
+            @endif
         </div>
-        
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white rounded-xl shadow-md overflow-hidden">
-                <thead class="gradient-primary text-white text-xs sm:text-sm">
-                    <tr>
-                        <th class="py-2 sm:py-3 px-2 sm:px-4 text-left">No</th>
-                        <th class="py-2 sm:py-3 px-2 sm:px-4 text-left">Jenis Layanan</th>
-                        <th class="py-2 sm:py-3 px-2 sm:px-4 text-left">Waktu</th>
-                        <th class="py-2 sm:py-3 px-2 sm:px-4 text-left">Biaya</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 text-xs sm:text-sm">
-                    <tr class="hover:bg-gray-50">
-                        <td class="py-2 sm:py-3 px-2 sm:px-4">1</td>
-                        <td class="py-2 sm:py-3 px-2 sm:px-4 font-semibold">Pembuatan KTP</td>
-                        <td class="py-2 sm:py-3 px-2 sm:px-4">1-2 Hari</td>
-                        <td class="py-2 sm:py-3 px-2 sm:px-4 text-green-600">Gratis</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="py-2 sm:py-3 px-2 sm:px-4">2</td>
-                        <td class="py-2 sm:py-3 px-2 sm:px-4 font-semibold">Pembuatan KK</td>
-                        <td class="py-2 sm:py-3 px-2 sm:px-4">1-2 Hari</td>
-                        <td class="py-2 sm:py-3 px-2 sm:px-4 text-green-600">Gratis</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="py-2 sm:py-3 px-2 sm:px-4">3</td>
-                        <td class="py-2 sm:py-3 px-2 sm:px-4 font-semibold">Akta Kelahiran</td>
-                        <td class="py-2 sm:py-3 px-2 sm:px-4">3-5 Hari</td>
-                        <td class="py-2 sm:py-3 px-2 sm:px-4 text-green-600">Gratis</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="py-2 sm:py-3 px-2 sm:px-4">4</td>
-                        <td class="py-2 sm:py-3 px-2 sm:px-4 font-semibold">Izin Usaha</td>
-                        <td class="py-2 sm:py-3 px-2 sm:px-4">5-7 Hari</td>
-                        <td class="py-2 sm:py-3 px-2 sm:px-4">Rp 0 - 500rb</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
+    </section>
+</div>
 
-<!-- PPID Section -->
-<section id="ppid-utama" class="py-12 md:py-16 bg-white px-4">
-    <div class="container mx-auto max-w-5xl">
-        <div class="text-center mb-8">
-            <span class="text-blue-600 font-semibold text-xs uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">Informasi Publik</span>
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mt-3">PPID Kecamatan</h2>
-        </div>
-        
-        <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-5 mb-6">
-            <h3 class="text-base sm:text-lg font-bold text-blue-800 mb-2">PPID Utama Kota Bandung</h3>
-            <p class="text-gray-600 text-xs sm:text-sm mb-3">Mengelola informasi dan dokumentasi di tingkat Kota Bandung.</p>
-            <div class="flex gap-2">
-                <a href="#" class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs">Kunjungi</a>
-                <a href="#" class="border border-blue-600 text-blue-600 px-3 py-1.5 rounded-lg text-xs">Info</a>
+<!-- INFORMASI - PENGUMUMAN -->
+<div id="page-informasi-pengumuman" class="page-section">
+    <section class="py-20">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="text-center mb-12 scroll-reveal">
+                <h1 class="text-4xl md:text-5xl font-bold gradient-text">Pengumuman</h1>
+                <p class="text-gray-400 mt-3">Informasi terbaru dari {{ $site_name }}</p>
             </div>
-        </div>
-        
-        <div class="grid md:grid-cols-2 gap-4 mb-6">
-            <div class="bg-gray-50 rounded-xl p-4">
-                <h3 class="font-bold text-blue-800 text-sm mb-2">Tentang PPID</h3>
-                <p class="text-gray-500 text-xs">PPID bertanggung jawab di bidang penyimpanan dan pelayanan informasi publik sesuai UU No. 14 Tahun 2008.</p>
-            </div>
-            <div class="bg-gray-50 rounded-xl p-4">
-                <h3 class="font-bold text-blue-800 text-sm mb-2">Daftar Informasi Publik</h3>
-                <div class="grid grid-cols-2 gap-1 text-xs text-gray-600">
-                    <span>✓ Profil Kecamatan</span>
-                    <span>✓ Struktur Organisasi</span>
-                    <span>✓ Program Kerja</span>
-                    <span>✓ Laporan Keuangan</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="grid md:grid-cols-2 gap-4">
-            <div class="bg-gray-50 rounded-xl p-4">
-                <h3 class="font-bold text-blue-800 text-sm mb-2">Indeks Kepuasan Masyarakat</h3>
-                <div class="text-center">
-                    <div class="text-3xl font-bold text-green-600">87.5</div>
-                    <p class="text-gray-500 text-xs">IKM 2025</p>
-                    <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
-                        <div class="bg-green-500 h-2 rounded-full" style="width: 87.5%"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-gray-50 rounded-xl p-4">
-                <h3 class="font-bold text-blue-800 text-sm mb-2">Informasi Digital Layanan</h3>
-                <div class="space-y-1">
-                    <a href="#" class="flex items-center gap-2 text-blue-600 text-xs">📱 Aplikasi SAPAWARI</a>
-                    <a href="#" class="flex items-center gap-2 text-blue-600 text-xs">💬 WhatsApp Center</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <div class="bg-gray-50 rounded-xl p-4">
-                <h3 class="font-bold text-blue-800 text-sm mb-3">Permohonan Informasi Online</h3>
-                <form class="space-y-2">
-                    <input type="text" placeholder="Nama" class="w-full p-2 border rounded-lg text-sm">
-                    <input type="email" placeholder="Email" class="w-full p-2 border rounded-lg text-sm">
-                    <input type="text" placeholder="Informasi yang diminta" class="w-full p-2 border rounded-lg text-sm">
-                    <button class="w-full bg-blue-600 text-white py-2 rounded-lg text-sm">Ajukan</button>
-                </form>
-            </div>
-            <div class="bg-gray-50 rounded-xl p-4">
-                <h3 class="font-bold text-blue-800 text-sm mb-3">Pengajuan Keberatan Online</h3>
-                <form class="space-y-2">
-                    <input type="text" placeholder="Nama" class="w-full p-2 border rounded-lg text-sm">
-                    <input type="text" placeholder="No. Registrasi" class="w-full p-2 border rounded-lg text-sm">
-                    <textarea rows="2" placeholder="Alasan keberatan" class="w-full p-2 border rounded-lg text-sm"></textarea>
-                    <button class="w-full bg-red-600 text-white py-2 rounded-lg text-sm">Ajukan</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Galeri -->
-<section id="galeri" class="py-12 md:py-16 bg-gray-50 px-4">
-    <div class="container mx-auto max-w-6xl">
-        <div class="text-center mb-8">
-            <span class="text-blue-600 font-semibold text-xs uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">Dokumentasi</span>
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mt-3">Galeri Kegiatan</h2>
-        </div>
-        
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            <div class="bg-gray-300 rounded-xl aspect-square flex items-center justify-center shadow-md">
-                <i class="fas fa-image text-3xl text-gray-500"></i>
-            </div>
-            <div class="bg-gray-300 rounded-xl aspect-square flex items-center justify-center shadow-md">
-                <i class="fas fa-image text-3xl text-gray-500"></i>
-            </div>
-            <div class="bg-gray-300 rounded-xl aspect-square flex items-center justify-center shadow-md">
-                <i class="fas fa-image text-3xl text-gray-500"></i>
-            </div>
-            <div class="bg-gray-300 rounded-xl aspect-square flex items-center justify-center shadow-md">
-                <i class="fas fa-image text-3xl text-gray-500"></i>
-            </div>
-        </div>
-        
-        <div class="text-center mt-6">
-            <a href="#" class="text-blue-600 font-semibold text-sm inline-flex items-center gap-1">Lihat Galeri Lengkap <i class="fas fa-arrow-right text-xs"></i></a>
-        </div>
-    </div>
-</section>
-
-<!-- Info Kegiatan -->
-<section id="kegiatan" class="py-12 md:py-16 bg-white px-4">
-    <div class="container mx-auto max-w-4xl">
-        <div class="text-center mb-8">
-            <span class="text-blue-600 font-semibold text-xs uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">Informasi</span>
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mt-3">Info Kegiatan</h2>
-        </div>
-        
-        <div class="space-y-4">
-            <div class="flex flex-col sm:flex-row gap-3 bg-gray-50 rounded-xl p-4">
-                <div class="sm:w-24 bg-blue-600 rounded-lg p-2 text-center text-white">
-                    <span class="text-xl font-bold">15</span>
-                    <p class="text-xs">Mei 2026</p>
-                </div>
-                <div class="flex-1">
-                    <h3 class="font-bold text-gray-800 text-sm sm:text-base">Sosialisasi Program Bantuan Sosial</h3>
-                    <p class="text-gray-500 text-xs mt-1">Bertempat di Aula Kecamatan Buahbatu</p>
-                    <a href="#" class="text-blue-500 text-xs mt-1 inline-block">Selengkapnya →</a>
-                </div>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-3 bg-gray-50 rounded-xl p-4">
-                <div class="sm:w-24 bg-green-600 rounded-lg p-2 text-center text-white">
-                    <span class="text-xl font-bold">10</span>
-                    <p class="text-xs">Mei 2026</p>
-                </div>
-                <div class="flex-1">
-                    <h3 class="font-bold text-gray-800 text-sm sm:text-base">Pelatihan Digital Marketing UMKM</h3>
-                    <p class="text-gray-500 text-xs mt-1">Bekerja sama dengan Disperindag Kota Bandung</p>
-                    <a href="#" class="text-blue-500 text-xs mt-1 inline-block">Selengkapnya →</a>
-                </div>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-3 bg-gray-50 rounded-xl p-4">
-                <div class="sm:w-24 bg-purple-600 rounded-lg p-2 text-center text-white">
-                    <span class="text-xl font-bold">5</span>
-                    <p class="text-xs">Mei 2026</p>
-                </div>
-                <div class="flex-1">
-                    <h3 class="font-bold text-gray-800 text-sm sm:text-base">Bakti Sosial Kesehatan Gratis</h3>
-                    <p class="text-gray-500 text-xs mt-1">Cek kesehatan dan konsultasi dokter gratis</p>
-                    <a href="#" class="text-blue-500 text-xs mt-1 inline-block">Selengkapnya →</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Pengumuman -->
-<section id="pengumuman" class="py-12 md:py-16 bg-gray-50 px-4">
-    <div class="container mx-auto max-w-4xl">
-        <div class="text-center mb-8">
-            <span class="text-blue-600 font-semibold text-xs uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">Informasi</span>
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mt-3">Pengumuman</h2>
-        </div>
-        
-        <div class="space-y-3">
-            <div class="bg-white rounded-xl p-4 border-l-4 border-yellow-500 shadow-sm">
+            
+            @if($pengumuman && $pengumuman->count() > 0)
+            @foreach($pengumuman as $item)
+            <div class="glass-card rounded-xl p-5 border-l-4 mb-4" style="border-left-color: {{ $item->penting ? '#eab308' : 'var(--primary)' }}">
                 <div class="flex justify-between items-start flex-wrap gap-2">
-                    <div>
-                        <span class="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full">Penting</span>
-                        <h3 class="font-bold text-sm mt-2">Pendaftaran Bantuan Sosial 2026 Dibuka</h3>
-                    </div>
-                    <span class="text-xs text-gray-400">30 April 2026</span>
+                    <div><span class="text-xs px-2 py-1 rounded-full {{ $item->penting ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400' }}">{{ $item->kategori }}</span><h3 class="font-bold text-lg mt-2">{{ $item->judul }}</h3><p class="text-gray-400 text-sm mt-1">{{ Str::limit($item->isi, 100) }}</p></div>
+                    <span class="text-sm text-gray-500">{{ $item->tanggal->format('d M Y') }}</span>
                 </div>
             </div>
-            <div class="bg-white rounded-xl p-4 border-l-4 border-green-500 shadow-sm">
-                <div class="flex justify-between items-start flex-wrap gap-2">
-                    <div>
-                        <span class="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded-full">Info</span>
-                        <h3 class="font-bold text-sm mt-2">Jadwal Pelayanan Pasca Lebaran</h3>
-                    </div>
-                    <span class="text-xs text-gray-400">28 April 2026</span>
-                </div>
+            @endforeach
+            @else
+            <div class="glass-card rounded-2xl p-8 text-center">
+                <p class="text-gray-400">Belum ada data pengumuman. Silakan isi di admin panel.</p>
             </div>
-            <div class="bg-white rounded-xl p-4 border-l-4 border-blue-500 shadow-sm">
-                <div class="flex justify-between items-start flex-wrap gap-2">
-                    <div>
-                        <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">Lowongan</span>
-                        <h3 class="font-bold text-sm mt-2">Rekrutmen Tenaga Kontrak</h3>
-                    </div>
-                    <span class="text-xs text-gray-400">25 April 2026</span>
-                </div>
-            </div>
+            @endif
         </div>
-    </div>
-</section>
+    </section>
+</div>
 
-<!-- Kontak -->
-<section id="kontak" class="py-12 md:py-16 bg-white px-4">
-    <div class="container mx-auto max-w-5xl">
-        <div class="text-center mb-8">
-            <span class="text-blue-600 font-semibold text-xs uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">Hubungi Kami</span>
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mt-3">Kontak & Lokasi</h2>
-        </div>
-        
-        <div class="grid md:grid-cols-2 gap-6">
-            <div class="bg-gray-50 rounded-xl p-5">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-map-marker-alt text-white"></i>
-                    </div>
-                    <h3 class="font-bold">Alamat Kantor</h3>
+<!-- KONTAK -->
+<div id="page-kontak" class="page-section">
+    <section class="py-20">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <div class="text-center mb-12 scroll-reveal">
+                <h1 class="text-4xl md:text-5xl font-bold gradient-text">Hubungi Kami</h1>
+                <p class="text-gray-400 mt-3">Sampaikan saran, kritik, atau pertanyaan Anda</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-card rounded-2xl p-6 scroll-reveal">
+                    <div class="flex items-start gap-4 mb-6"><div class="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center"><i class="fas fa-map-marker-alt text-white text-xl"></i></div><div><h3 class="font-bold text-lg mb-1">Alamat Kantor</h3><p class="text-gray-400">Jl. Pemuda No. 1, Kelurahan Pasar Mukomuko, Kabupaten Mukomuko, Provinsi Bengkulu 38711</p></div></div>
+                    <div class="flex items-start gap-4 mb-6"><div class="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center"><i class="fas fa-phone-alt text-white text-xl"></i></div><div><h3 class="font-bold text-lg mb-1">Telepon</h3><p class="text-gray-400">(0736) 1234567</p></div></div>
+                    <div class="flex items-start gap-4"><div class="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center"><i class="fas fa-envelope text-white text-xl"></i></div><div><h3 class="font-bold text-lg mb-1">Email</h3><p class="text-gray-400">info@mukomukokab.go.id</p></div></div>
                 </div>
-                <p class="text-gray-600 text-sm">Jl. Buahbatu No. 123, Kelurahan Sekejati, Kecamatan Buahbatu, Kota Bandung 40286</p>
                 
-                <div class="mt-5 space-y-3 text-sm">
-                    <div class="flex items-center gap-3"><i class="fas fa-phone-alt text-blue-500 w-5"></i> (022) 1234567</div>
-                    <div class="flex items-center gap-3"><i class="fas fa-envelope text-blue-500 w-5"></i> kecamatan.buahbatu@bandung.go.id</div>
-                    <div class="flex items-center gap-3"><i class="fas fa-clock text-blue-500 w-5"></i> Senin - Jumat: 08:00 - 16:00</div>
+                <div class="glass-card rounded-2xl p-6 scroll-reveal">
+                    <h3 class="text-xl font-bold mb-6">Kirim Pesan</h3>
+                    <form action="{{ route('kontak.kirim') }}" method="POST">
+                        @csrf
+                        <div class="mb-4"><input type="text" name="nama" placeholder="Nama Lengkap" class="w-full p-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-blue-500 transition"></div>
+                        <div class="mb-4"><input type="email" name="email" placeholder="Email" class="w-full p-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-blue-500 transition"></div>
+                        <div class="mb-6"><textarea name="pesan" rows="5" placeholder="Pesan" class="w-full p-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-blue-500 transition"></textarea></div>
+                        <button type="submit" class="btn-primary w-full justify-center">Kirim Pesan <i class="fas fa-paper-plane ml-2"></i></button>
+                    </form>
                 </div>
             </div>
-            
-            <div class="bg-gray-50 rounded-xl p-5">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-paper-plane text-white"></i>
-                    </div>
-                    <h3 class="font-bold">Kirim Pesan</h3>
-                </div>
-                <form class="space-y-3">
-                    <input type="text" placeholder="Nama" class="w-full p-2 border rounded-lg text-sm">
-                    <input type="email" placeholder="Email" class="w-full p-2 border rounded-lg text-sm">
-                    <textarea rows="3" placeholder="Pesan" class="w-full p-2 border rounded-lg text-sm"></textarea>
-                    <button class="w-full bg-blue-600 text-white py-2 rounded-lg text-sm">Kirim</button>
-                </form>
-            </div>
         </div>
-        
-        <div class="mt-6 bg-gray-200 rounded-xl h-48 flex items-center justify-center">
-            <div class="text-center">
-                <i class="fas fa-map-marked-alt text-3xl text-gray-400 mb-2"></i>
-                <p class="text-gray-500 text-sm">Google Maps</p>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
+</div>
 
-<!-- Back to Top -->
-<a href="#" class="fixed bottom-5 right-5 bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg active:scale-95 transition z-50">
-    <i class="fas fa-arrow-up text-sm"></i>
-</a>
+<!-- BERITA DETAIL & SEMUA BERITA -->
+<div id="page-berita-detail" class="page-section"><div id="berita-detail-content"></div></div>
+<div id="page-semua-berita" class="page-section"><div id="semua-berita-content"></div></div>
+@endsection
 
+@section('scripts')
+<script>
+function showBeritaDetail(slug) {
+    fetch('/berita/' + slug).then(r => r.text()).then(html => {
+        document.getElementById('berita-detail-content').innerHTML = html;
+        showPage('berita-detail');
+    });
+}
+
+function showSemuaBerita() {
+    fetch('/semua-berita').then(r => r.text()).then(html => {
+        document.getElementById('semua-berita-content').innerHTML = html;
+        showPage('semua-berita');
+    });
+}
+
+function showPage(pageId, param = null) {
+    document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+    
+    if (pageId === 'berita-detail' && param) { showBeritaDetail(param); return; }
+    if (pageId === 'semua-berita') { showSemuaBerita(); return; }
+    
+    const target = document.getElementById('page-' + pageId);
+    if (target) target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
 @endsection

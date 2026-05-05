@@ -1,0 +1,19 @@
+@extends('admin.layouts.admin')
+
+@section('page-title', 'Tambah Pengumuman')
+
+@section('content')
+<div class="bg-white rounded-xl shadow-sm max-w-2xl">
+    <div class="p-6 border-b border-gray-200"><h2 class="font-bold text-lg">Tambah Pengumuman</h2></div>
+    <form method="POST" action="{{ route('admin.pengumuman.store') }}" class="p-6 space-y-5">
+        @csrf
+        <div><label class="block font-semibold mb-2">Judul</label><input type="text" name="judul" required class="w-full p-3 border border-gray-300 rounded-lg"></div>
+        <div><label class="block font-semibold mb-2">Isi Pengumuman</label><textarea name="isi" rows="5" required class="w-full p-3 border border-gray-300 rounded-lg"></textarea></div>
+        <div><label class="block font-semibold mb-2">Kategori</label><input type="text" name="kategori" placeholder="Contoh: Penting, Info, Lowongan" required class="w-full p-3 border border-gray-300 rounded-lg"></div>
+        <div><label class="block font-semibold mb-2">Tanggal</label><input type="date" name="tanggal" required class="w-full p-3 border border-gray-300 rounded-lg"></div>
+        <div><label class="block font-semibold mb-2">Penting?</label><select name="penting" class="w-full p-3 border border-gray-300 rounded-lg"><option value="0">Tidak</option><option value="1">Ya, penting</option></select></div>
+        <div><label class="block font-semibold mb-2">Status</label><select name="aktif" class="w-full p-3 border border-gray-300 rounded-lg"><option value="1">Aktif</option><option value="0">Nonaktif</option></select></div>
+        <div class="flex justify-end space-x-3"><a href="{{ route('admin.pengumuman') }}" class="px-6 py-2 border rounded-lg">Batal</a><button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg">Simpan</button></div>
+    </form>
+</div>
+@endsection

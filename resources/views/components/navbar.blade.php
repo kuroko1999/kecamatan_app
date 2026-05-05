@@ -1,139 +1,140 @@
-<header class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 transition-all duration-300 border-b border-gray-100">
+<nav id="navbar" class="navbar fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300">
     <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between h-16">
+        <div class="flex justify-between items-center">
             <!-- Logo -->
-            <a href="{{ route('home') }}" class="flex items-center space-x-2 active:opacity-70 transition-opacity">
-                <div class="bg-gradient-to-br from-blue-800 to-blue-600 rounded-xl w-9 h-9 flex items-center justify-center shadow-md">
-                    <i class="fas fa-landmark text-white text-base"></i>
+            <a href="#" onclick="showPage('home'); return false;" class="flex items-center space-x-3 group cursor-pointer">
+                <div class="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-landmark text-white text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold text-base text-gray-800">Kecamatan Buahbatu</h1>
-                    <p class="text-[10px] text-gray-500 -mt-0.5">Kota Bandung</p>
+                    @php
+                        $site_name = \App\Models\Setting::get('site_name', 'Kabupaten Mukomuko');
+                        $site_tagline = \App\Models\Setting::get('site_tagline', 'Provinsi Bengkulu');
+                    @endphp
+                    <div class="font-bold text-lg text-white">{{ $site_name }}</div>
+                    <div class="text-xs text-gray-400">{{ $site_tagline }}</div>
                 </div>
             </a>
             
-            <!-- Mobile Menu Button -->
-            <button id="menu-btn" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl active:bg-gray-100 transition-colors">
-                <i id="menu-icon" class="fas fa-bars text-gray-600 text-xl"></i>
-            </button>
-            
-            <!-- Desktop Navigation -->
-            <nav class="hidden lg:flex items-center space-x-5">
-                <a href="#" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition">Portal Utama</a>
-                <a href="{{ route('home') }}" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition">Beranda</a>
-                <a href="#kegiatan" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition">Info Kegiatan</a>
+            <!-- Desktop Menu -->
+            <div class="desktop-menu items-center space-x-6">
+                <a href="#" onclick="showPage('home'); return false;" class="text-gray-300 hover:text-white transition duration-300">Beranda</a>
                 
-                <div class="relative group">
-                    <button class="text-sm font-medium text-gray-600 hover:text-blue-600 transition flex items-center gap-1">Profil <i class="fas fa-chevron-down text-xs"></i></button>
-                    <div class="absolute left-0 w-52 bg-white shadow-xl rounded-xl mt-2 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-gray-100">
-                        <a href="#profil-tentang" class="block px-4 py-2.5 text-sm hover:bg-gray-50 hover:text-blue-600 transition">Tentang Kecamatan</a>
-                        <a href="#profil-struktur" class="block px-4 py-2.5 text-sm hover:bg-gray-50 hover:text-blue-600 transition">Struktur Organisasi</a>
+                <div class="relative dropdown">
+                    <a href="#" class="text-gray-300 hover:text-white transition flex items-center gap-1">Profil <i class="fas fa-chevron-down text-xs"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="#" onclick="showPage('profil-tentang'); return false;" class="dropdown-item block px-4 py-2 text-sm text-gray-300 hover:text-white">Tentang Kabupaten</a>
+                        <a href="#" onclick="showPage('profil-struktur'); return false;" class="dropdown-item block px-4 py-2 text-sm text-gray-300 hover:text-white">Struktur Organisasi</a>
                     </div>
                 </div>
                 
-                <div class="relative group">
-                    <button class="text-sm font-medium text-gray-600 hover:text-blue-600 transition flex items-center gap-1">PPID <i class="fas fa-chevron-down text-xs"></i></button>
-                    <div class="absolute left-0 w-72 bg-white shadow-xl rounded-xl mt-2 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-gray-100 max-h-96 overflow-y-auto">
-                        <a href="#ppid-utama" class="block px-4 py-2.5 text-sm hover:bg-gray-50 hover:text-blue-600 transition">PPID Utama Kota Bandung</a>
-                        <a href="#ppid-tentang" class="block px-4 py-2.5 text-sm hover:bg-gray-50 hover:text-blue-600 transition">Tentang PPID</a>
-                        <a href="#ppid-informasi" class="block px-4 py-2.5 text-sm hover:bg-gray-50 hover:text-blue-600 transition">Daftar Informasi Publik</a>
-                        <a href="#ppid-ikm" class="block px-4 py-2.5 text-sm hover:bg-gray-50 hover:text-blue-600 transition">Indeks Kepuasan Masyarakat</a>
-                        <a href="#ppid-digital" class="block px-4 py-2.5 text-sm hover:bg-gray-50 hover:text-blue-600 transition">Informasi Digital Layanan</a>
-                        <a href="#ppid-permohonan" class="block px-4 py-2.5 text-sm hover:bg-gray-50 hover:text-blue-600 transition">Permohonan Informasi Online</a>
-                        <a href="#ppid-keberatan" class="block px-4 py-2.5 text-sm hover:bg-gray-50 hover:text-blue-600 transition">Pengajuan Keberatan Online</a>
+                <a href="#" onclick="showPage('layanan'); return false;" class="text-gray-300 hover:text-white transition">Layanan</a>
+                
+                <div class="relative dropdown">
+                    <a href="#" class="text-gray-300 hover:text-white transition flex items-center gap-1">PPID <i class="fas fa-chevron-down text-xs"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="#" onclick="showPage('ppid'); return false;" class="dropdown-item block px-4 py-2 text-sm text-gray-300 hover:text-white">Informasi Publik</a>
+                        <a href="#" onclick="showPage('ppid-permohonan'); return false;" class="dropdown-item block px-4 py-2 text-sm text-gray-300 hover:text-white">Permohonan Informasi</a>
+                        <a href="#" onclick="showPage('ppid-keberatan'); return false;" class="dropdown-item block px-4 py-2 text-sm text-gray-300 hover:text-white">Pengajuan Keberatan</a>
                     </div>
                 </div>
                 
-                <a href="#galeri" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition">Galeri</a>
+                <a href="#" onclick="showPage('galeri'); return false;" class="text-gray-300 hover:text-white transition">Galeri</a>
                 
-                <div class="relative group">
-                    <button class="text-sm font-medium text-gray-600 hover:text-blue-600 transition flex items-center gap-1">Layanan <i class="fas fa-chevron-down text-xs"></i></button>
-                    <div class="absolute left-0 w-64 bg-white shadow-xl rounded-xl mt-2 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-gray-100">
-                        <a href="#layanan-sop" class="block px-4 py-2.5 text-sm hover:bg-gray-50 hover:text-blue-600 transition">Standar Operasional Prosedur</a>
-                        <a href="#layanan-standar" class="block px-4 py-2.5 text-sm hover:bg-gray-50 hover:text-blue-600 transition">Standar Pelayanan</a>
+                <div class="relative dropdown">
+                    <a href="#" class="text-gray-300 hover:text-white transition flex items-center gap-1">Informasi <i class="fas fa-chevron-down text-xs"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="#" onclick="showPage('informasi-kegiatan'); return false;" class="dropdown-item block px-4 py-2 text-sm text-gray-300 hover:text-white">Info Kegiatan</a>
+                        <a href="#" onclick="showPage('informasi-pengumuman'); return false;" class="dropdown-item block px-4 py-2 text-sm text-gray-300 hover:text-white">Pengumuman</a>
                     </div>
                 </div>
                 
-                <a href="#pengumuman" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition">Pengumuman</a>
-            </nav>
-        </div>
-        
-        <!-- Mobile Navigation Drawer -->
-        <div id="mobile-drawer" class="fixed inset-0 bg-black/50 z-40 hidden transition-all duration-300 lg:hidden" style="backdrop-filter: blur(4px);">
-            <div class="absolute right-0 top-0 bottom-0 w-80 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 overflow-y-auto">
-                <div class="p-4 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white z-10">
-                    <div class="flex items-center space-x-2">
-                        <div class="bg-blue-600 rounded-xl w-8 h-8 flex items-center justify-center">
-                            <i class="fas fa-landmark text-white text-sm"></i>
-                        </div>
-                        <span class="font-bold text-gray-800">Menu</span>
-                    </div>
-                    <button id="close-drawer" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 active:bg-gray-200">
-                        <i class="fas fa-times text-gray-600"></i>
-                    </button>
-                </div>
-                
-                <div class="p-4 space-y-1">
-                    <a href="#" class="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition active:bg-gray-100">Portal Utama</a>
-                    <a href="{{ route('home') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition active:bg-gray-100">Beranda</a>
-                    <a href="#kegiatan" class="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition active:bg-gray-100">Info Kegiatan</a>
-                    
-                    <div class="mt-2 mb-1 px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Profil</div>
-                    <a href="#profil-tentang" class="flex items-center gap-3 pl-8 pr-3 py-2.5 rounded-xl hover:bg-gray-50 transition text-sm">Tentang Kecamatan</a>
-                    <a href="#profil-struktur" class="flex items-center gap-3 pl-8 pr-3 py-2.5 rounded-xl hover:bg-gray-50 transition text-sm">Struktur Organisasi</a>
-                    
-                    <div class="mt-2 mb-1 px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">PPID</div>
-                    <a href="#ppid-utama" class="flex items-center gap-3 pl-8 pr-3 py-2.5 rounded-xl hover:bg-gray-50 transition text-sm">PPID Utama Kota Bandung</a>
-                    <a href="#ppid-tentang" class="flex items-center gap-3 pl-8 pr-3 py-2.5 rounded-xl hover:bg-gray-50 transition text-sm">Tentang PPID</a>
-                    <a href="#ppid-informasi" class="flex items-center gap-3 pl-8 pr-3 py-2.5 rounded-xl hover:bg-gray-50 transition text-sm">Daftar Informasi Publik</a>
-                    <a href="#ppid-ikm" class="flex items-center gap-3 pl-8 pr-3 py-2.5 rounded-xl hover:bg-gray-50 transition text-sm">Indeks Kepuasan Masyarakat</a>
-                    <a href="#ppid-digital" class="flex items-center gap-3 pl-8 pr-3 py-2.5 rounded-xl hover:bg-gray-50 transition text-sm">Informasi Digital Layanan</a>
-                    <a href="#ppid-permohonan" class="flex items-center gap-3 pl-8 pr-3 py-2.5 rounded-xl hover:bg-gray-50 transition text-sm">Permohonan Informasi Online</a>
-                    <a href="#ppid-keberatan" class="flex items-center gap-3 pl-8 pr-3 py-2.5 rounded-xl hover:bg-gray-50 transition text-sm">Pengajuan Keberatan Online</a>
-                    
-                    <div class="mt-2 mb-1 px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Lainnya</div>
-                    <a href="#galeri" class="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition active:bg-gray-100">Galeri</a>
-                    <a href="#layanan-sop" class="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition active:bg-gray-100 text-sm">Standar Operasional Prosedur</a>
-                    <a href="#layanan-standar" class="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition active:bg-gray-100 text-sm">Standar Pelayanan</a>
-                    <a href="#pengumuman" class="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition active:bg-gray-100">Pengumuman</a>
-                </div>
+                <a href="#" onclick="showPage('kontak'); return false;" class="text-gray-300 hover:text-white transition">Kontak</a>
             </div>
+            
+            <!-- Mobile Menu Button -->
+            <button id="menuToggle" class="mobile-menu-btn w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-300 items-center justify-center">
+                <i class="fas fa-bars text-white text-xl"></i>
+            </button>
         </div>
     </div>
-</header>
+</nav>
+
+<!-- Mobile Drawer -->
+<div id="drawerOverlay" class="drawer-overlay"></div>
+<div id="mobileDrawer" class="mobile-drawer">
+    <div class="p-5 border-b border-white/10 flex justify-between items-center sticky top-0 bg-[#0f172a]/95 backdrop-blur-sm">
+        <span class="font-bold text-lg">Menu</span>
+        <button id="closeDrawer" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="p-4 space-y-2">
+        <a href="#" onclick="showPage('home'); closeDrawerFunc(); return false;" class="block py-3 px-3 rounded-xl hover:bg-white/10 transition">Beranda</a>
+        <div class="text-xs font-semibold text-gray-500 px-3 pt-2">PROFIL</div>
+        <a href="#" onclick="showPage('profil-tentang'); closeDrawerFunc(); return false;" class="block py-2 px-6 text-sm hover:bg-white/10 rounded-lg transition">Tentang Kabupaten</a>
+        <a href="#" onclick="showPage('profil-struktur'); closeDrawerFunc(); return false;" class="block py-2 px-6 text-sm hover:bg-white/10 rounded-lg transition">Struktur Organisasi</a>
+        <a href="#" onclick="showPage('layanan'); closeDrawerFunc(); return false;" class="block py-3 px-3 rounded-xl hover:bg-white/10 transition">Layanan</a>
+        <div class="text-xs font-semibold text-gray-500 px-3 pt-2">PPID</div>
+        <a href="#" onclick="showPage('ppid'); closeDrawerFunc(); return false;" class="block py-2 px-6 text-sm hover:bg-white/10 rounded-lg transition">Informasi Publik</a>
+        <a href="#" onclick="showPage('ppid-permohonan'); closeDrawerFunc(); return false;" class="block py-2 px-6 text-sm hover:bg-white/10 rounded-lg transition">Permohonan Informasi</a>
+        <a href="#" onclick="showPage('ppid-keberatan'); closeDrawerFunc(); return false;" class="block py-2 px-6 text-sm hover:bg-white/10 rounded-lg transition">Pengajuan Keberatan</a>
+        <a href="#" onclick="showPage('galeri'); closeDrawerFunc(); return false;" class="block py-3 px-3 rounded-xl hover:bg-white/10 transition">Galeri</a>
+        <div class="text-xs font-semibold text-gray-500 px-3 pt-2">INFORMASI</div>
+        <a href="#" onclick="showPage('informasi-kegiatan'); closeDrawerFunc(); return false;" class="block py-2 px-6 text-sm hover:bg-white/10 rounded-lg transition">Info Kegiatan</a>
+        <a href="#" onclick="showPage('informasi-pengumuman'); closeDrawerFunc(); return false;" class="block py-2 px-6 text-sm hover:bg-white/10 rounded-lg transition">Pengumuman</a>
+        <a href="#" onclick="showPage('kontak'); closeDrawerFunc(); return false;" class="block py-3 px-3 rounded-xl hover:bg-white/10 transition">Kontak</a>
+        <div class="border-t border-white/10 my-3 pt-3">
+            <a href="{{ url('/admin') }}" class="block py-3 px-3 rounded-xl bg-white/5 hover:bg-white/10 transition text-blue-400">Admin Panel</a>
+        </div>
+    </div>
+</div>
 
 <script>
-    (function() {
-        const menuBtn = document.getElementById('menu-btn');
-        const drawer = document.getElementById('mobile-drawer');
-        const closeBtn = document.getElementById('close-drawer');
-        const menuIcon = document.getElementById('menu-icon');
+    // ==================== MOBILE DRAWER ====================
+    const menuToggle = document.getElementById('menuToggle');
+    const drawer = document.getElementById('mobileDrawer');
+    const overlay = document.getElementById('drawerOverlay');
+    const closeBtn = document.getElementById('closeDrawer');
+    
+    function openDrawer() {
+        drawer.classList.add('open');
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeDrawerFunc() {
+        drawer.classList.remove('open');
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    
+    if (menuToggle) menuToggle.addEventListener('click', openDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawerFunc);
+    if (overlay) overlay.addEventListener('click', closeDrawerFunc);
+    
+    // ==================== PAGE NAVIGATION FUNCTION ====================
+    // Pastikan fungsi showPage tersedia secara global
+    window.showPage = function(pageId, param = null) {
+        console.log('Navigasi ke:', pageId);
         
-        function openDrawer() {
-            drawer.classList.remove('hidden');
-            setTimeout(() => {
-                drawer.querySelector('.absolute').classList.remove('translate-x-full');
-            }, 10);
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeDrawer() {
-            drawer.querySelector('.absolute').classList.add('translate-x-full');
-            setTimeout(() => {
-                drawer.classList.add('hidden');
-                document.body.style.overflow = '';
-            }, 300);
-        }
-        
-        if (menuBtn) menuBtn.addEventListener('click', openDrawer);
-        if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-        
-        drawer?.addEventListener('click', function(e) {
-            if (e.target === drawer) closeDrawer();
+        // Sembunyikan semua section
+        document.querySelectorAll('.page-section').forEach(section => {
+            section.classList.remove('active');
         });
         
-        document.querySelectorAll('#mobile-drawer a').forEach(link => {
-            link.addEventListener('click', closeDrawer);
-        });
-    })();
+        // Tampilkan section yang dipilih
+        const targetId = 'page-' + pageId;
+        const targetSection = document.getElementById(targetId);
+        
+        if (targetSection) {
+            targetSection.classList.add('active');
+            console.log('Section ditemukan:', targetId);
+        } else {
+            console.log('Section tidak ditemukan:', targetId);
+        }
+        
+        // Scroll ke atas
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    
+    console.log('Navbar loaded. showPage function available:', typeof window.showPage);
 </script>
