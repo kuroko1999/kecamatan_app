@@ -41,9 +41,12 @@ class LandingController extends Controller
         $layanan_display = $stat_layanan . '+';
         $kepuasan_display = $stat_kepuasan . '%';
         
-        // Ambil warna dari database untuk landing page
+        // ==================== AMBIL SEMUA WARNA DARI DATABASE ====================
         $primaryColor = Setting::get('primary_color', '#1a3a6b');
         $secondaryColor = Setting::get('secondary_color', '#d4a017');
+        $bgColor = Setting::get('bg_color', '#0f172a');
+        $textColor = Setting::get('text_color', '#ffffff');
+        $cardBgColor = Setting::get('card_bg_color', '#1e293b');
         
         // Konversi hex ke RGB untuk opacity efek
         $primaryRgb = $this->hexToRgb($primaryColor);
@@ -53,8 +56,9 @@ class LandingController extends Controller
         return view('landing.index', compact(
             'profil', 'layanan', 'kegiatan', 'pengumuman', 'galeri', 
             'struktur', 'berita', 'penduduk_display', 'kecamatan_display', 
-            'layanan_display', 'kepuasan_display', 'primaryColor', 
-            'secondaryColor', 'primaryRgb', 'primaryColorDark', 'secondaryColorDark'
+            'layanan_display', 'kepuasan_display', 
+            'primaryColor', 'secondaryColor', 'bgColor', 'textColor', 'cardBgColor',
+            'primaryRgb', 'primaryColorDark', 'secondaryColorDark'
         ));
     }
     

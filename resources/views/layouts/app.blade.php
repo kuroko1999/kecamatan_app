@@ -18,10 +18,20 @@
             --secondary: {{ $secondaryColor ?? '#d4a017' }};
             --secondary-dark: {{ $secondaryColorDark ?? '#b8860b' }};
             --primary-rgb: {{ $primaryRgb ?? '26, 58, 107' }};
+            --bg-body: {{ $bgColor ?? '#0f172a' }};
+            --text-body: {{ $textColor ?? '#ffffff' }};
+            --card-bg: {{ $cardBgColor ?? '#1e293b' }};
+            --border-color: {{ $borderColor ?? 'rgba(255,255,255,0.08)' }};
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f172a; overflow-x: hidden; }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-body); 
+            color: var(--text-body);
+            overflow-x: hidden; 
+        }
         
         /* Animations */
         @keyframes fadeUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
@@ -44,12 +54,16 @@
         }
         
         .glass-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--card-bg);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-color);
             transition: all 0.4s ease;
         }
-        .glass-card:hover { transform: translateY(-8px); background: rgba(255, 255, 255, 0.08); border-color: rgba(var(--primary-rgb), 0.3); }
+        .glass-card:hover { 
+            transform: translateY(-8px); 
+            background: rgba(var(--primary-rgb), 0.1);
+            border-color: rgba(var(--primary-rgb), 0.3); 
+        }
         
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), #06b6d4);
@@ -68,17 +82,17 @@
         
         .btn-outline {
             background: transparent;
-            color: white;
+            color: var(--text-body);
             padding: 10px 28px;
             border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(var(--primary-rgb), 0.3);
             transition: all 0.3s;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 8px;
         }
-        .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); }
+        .btn-outline:hover { background: rgba(var(--primary-rgb), 0.1); border-color: var(--primary); }
         
         .stat-card {
             background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1), rgba(6,182,212,0.05));
@@ -88,19 +102,28 @@
         }
         .stat-card:hover { transform: translateY(-5px); border-color: rgba(var(--primary-rgb), 0.5); }
         
-        /* Navbar */
-        .navbar { transition: all 0.3s; background: rgba(15,23,42,0.95); backdrop-filter: blur(12px); }
-        .navbar.scrolled { background: rgba(15,23,42,0.98); }
+        /* Navbar - Menggunakan warna background dinamis */
+        .navbar { 
+            transition: all 0.3s; 
+            background: rgba(var(--primary-rgb), 0.1);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(var(--primary-rgb), 0.2);
+        }
+        .navbar.scrolled { background: rgba(var(--primary-rgb), 0.9); }
+        
+        /* Navbar text */
+        .navbar .text-gray-300 { color: var(--text-body); opacity: 0.8; }
+        .navbar .text-gray-300:hover { color: var(--secondary); opacity: 1; }
         
         /* Dropdown */
         .dropdown-menu {
             position: absolute;
             top: 100%;
             left: 0;
-            background: rgba(15,23,42,0.95);
+            background: var(--card-bg);
             backdrop-filter: blur(12px);
             border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid var(--border-color);
             min-width: 240px;
             padding: 12px 0;
             opacity: 0;
@@ -110,7 +133,11 @@
             z-index: 100;
         }
         .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .dropdown-item:hover { background: rgba(var(--primary-rgb), 0.2); padding-left: 28px; }
+        .dropdown-item { 
+            color: var(--text-body); 
+            transition: all 0.2s;
+        }
+        .dropdown-item:hover { background: rgba(var(--primary-rgb), 0.2); padding-left: 28px; color: var(--secondary); }
         
         /* Mobile Drawer */
         .mobile-drawer {
@@ -119,7 +146,7 @@
             right: 0;
             bottom: 0;
             width: 320px;
-            background: rgba(15,23,42,0.98);
+            background: var(--card-bg);
             backdrop-filter: blur(20px);
             z-index: 1000;
             transform: translateX(100%);
@@ -149,7 +176,12 @@
         @media (max-width: 1024px) { .desktop-menu { display: none; } .mobile-menu-btn { display: flex; } }
         @media (min-width: 1025px) { .desktop-menu { display: flex; } .mobile-menu-btn { display: none; } }
         
-        .timeline-item:hover { transform: translateX(10px); background: rgba(var(--primary-rgb), 0.1); }
+        .timeline-item { 
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        .timeline-item:hover { transform: translateX(10px); background: rgba(var(--primary-rgb), 0.1); border-color: rgba(var(--primary-rgb), 0.3); }
         
         .back-to-top {
             position: fixed;
@@ -176,11 +208,32 @@
             transition: all 0.8s;
         }
         .scroll-reveal.revealed { opacity: 1; transform: translateY(0); }
+        
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        /* Form Input untuk kontak */
+        .form-input {
+            background: rgba(var(--primary-rgb), 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-body);
+        }
+        .form-input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        .form-input::placeholder {
+            color: var(--text-body);
+            opacity: 0.5;
+        }
     </style>
     
     @stack('styles')
 </head>
-<body class="bg-[#0f172a] text-white">
+<body>
 
     @include('components.navbar')
     
@@ -207,6 +260,16 @@
             else backToTop.classList.remove('visible');
         });
         backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        
+        // ==================== NAVBAR SCROLL EFFECT ====================
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar?.classList.add('scrolled');
+            } else {
+                navbar?.classList.remove('scrolled');
+            }
+        });
         
         // ==================== FUNCTION SHOW PAGE ====================
         window.showPage = function(pageId, param = null) {

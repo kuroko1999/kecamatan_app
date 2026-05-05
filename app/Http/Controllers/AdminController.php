@@ -395,28 +395,46 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Hero image berhasil diperbarui');
     }
     
-    // ==================== WARNA ====================
-    public function warnaIndex()
-    {
-        $primaryColor = Setting::get('primary_color', '#1a3a6b');
-        $secondaryColor = Setting::get('secondary_color', '#d4a017');
-        
-        return view('admin.pengaturan.warna', compact('primaryColor', 'secondaryColor'));
-    }
-    
-    public function warnaUpdate(Request $request)
+// ==================== WARNA WEBSITE ====================
+public function warnaIndex()
 {
-    $request->validate([
-        'primary_color' => 'required',
-        'secondary_color' => 'required',
-    ]);
+    $primaryColor = Setting::get('primary_color', '#1a3a6b');
+    $secondaryColor = Setting::get('secondary_color', '#d4a017');
+    $bgColor = Setting::get('bg_color', '#0f172a');
+    $textColor = Setting::get('text_color', '#ffffff');
+    $cardBgColor = Setting::get('card_bg_color', '#1e293b');
     
-    Setting::set('primary_color', $request->primary_color);
-    Setting::set('secondary_color', $request->secondary_color);
-    
-    return redirect()->back()->with('success', 'Warna website berhasil diperbarui. Silakan refresh landing page untuk melihat perubahan.');
+    return view('admin.pengaturan.warna', compact(
+        'primaryColor', 'secondaryColor', 'bgColor', 'textColor', 'cardBgColor'
+    ));
 }
-    
+
+public function warnaUpdate(Request $request)
+{
+    try {
+        // Validasi input
+        $validated = $request->validate([
+            'primary_color' => 'required|string',
+            'secondary_color' => 'required|string',
+            'bg_color' => 'required|string',
+            'text_color' => 'required|string',
+            'card_bg_color' => 'required|string',
+        ]);
+        
+        // Simpan ke database
+        Setting::set('primary_color', $request->primary_color);
+        Setting::set('secondary_color', $request->secondary_color);
+        Setting::set('bg_color', $request->bg_color);
+        Setting::set('text_color', $request->text_color);
+        Setting::set('card_bg_color', $request->card_bg_color);
+        
+        return redirect()->back()->with('success', 'Warna website berhasil diperbarui!');
+        
+    } catch (\Exception $e) {
+        \Log::error('Error saving color settings: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+    }
+}
     // ==================== VISITORS ====================
     public function visitors()
     {
