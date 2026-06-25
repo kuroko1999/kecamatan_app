@@ -11,9 +11,11 @@ use App\Models\Setting;
 use App\Models\StrukturOrganisasi;
 use App\Models\Berita;
 use App\Models\Visitor;
+use App\Models\Admin; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {
     // ==================== DASHBOARD ====================
@@ -371,7 +373,7 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Statistik berhasil diperbarui');
     }
     
-    // ==================== HERo ====================
+    // ==================== HERO ====================
     public function heroImage()
     {
         $hero_image = Setting::get('hero_image', null);
@@ -395,46 +397,45 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Hero image berhasil diperbarui');
     }
     
-// ==================== WARNA WEBSITE ====================
-public function warnaIndex()
-{
-    $primaryColor = Setting::get('primary_color', '#1a3a6b');
-    $secondaryColor = Setting::get('secondary_color', '#d4a017');
-    $bgColor = Setting::get('bg_color', '#0f172a');
-    $textColor = Setting::get('text_color', '#ffffff');
-    $cardBgColor = Setting::get('card_bg_color', '#1e293b');
-    
-    return view('admin.pengaturan.warna', compact(
-        'primaryColor', 'secondaryColor', 'bgColor', 'textColor', 'cardBgColor'
-    ));
-}
-
-public function warnaUpdate(Request $request)
-{
-    try {
-        // Validasi input
-        $validated = $request->validate([
-            'primary_color' => 'required|string',
-            'secondary_color' => 'required|string',
-            'bg_color' => 'required|string',
-            'text_color' => 'required|string',
-            'card_bg_color' => 'required|string',
-        ]);
+    // ==================== WARNA WEBSITE ====================
+    public function warnaIndex()
+    {
+        $primaryColor = Setting::get('primary_color', '#1a3a6b');
+        $secondaryColor = Setting::get('secondary_color', '#d4a017');
+        $bgColor = Setting::get('bg_color', '#0f172a');
+        $textColor = Setting::get('text_color', '#ffffff');
+        $cardBgColor = Setting::get('card_bg_color', '#1e293b');
         
-        // Simpan ke database
-        Setting::set('primary_color', $request->primary_color);
-        Setting::set('secondary_color', $request->secondary_color);
-        Setting::set('bg_color', $request->bg_color);
-        Setting::set('text_color', $request->text_color);
-        Setting::set('card_bg_color', $request->card_bg_color);
-        
-        return redirect()->back()->with('success', 'Warna website berhasil diperbarui!');
-        
-    } catch (\Exception $e) {
-        \Log::error('Error saving color settings: ' . $e->getMessage());
-        return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        return view('admin.pengaturan.warna', compact(
+            'primaryColor', 'secondaryColor', 'bgColor', 'textColor', 'cardBgColor'
+        ));
     }
-}
+    
+    public function warnaUpdate(Request $request)
+    {
+        try {
+            $request->validate([
+                'primary_color' => 'required|string',
+                'secondary_color' => 'required|string',
+                'bg_color' => 'required|string',
+                'text_color' => 'required|string',
+                'card_bg_color' => 'required|string',
+            ]);
+            
+            Setting::set('primary_color', $request->primary_color);
+            Setting::set('secondary_color', $request->secondary_color);
+            Setting::set('bg_color', $request->bg_color);
+            Setting::set('text_color', $request->text_color);
+            Setting::set('card_bg_color', $request->card_bg_color);
+            
+            return redirect()->back()->with('success', 'Warna website berhasil diperbarui!');
+            
+        } catch (\Exception $e) {
+            Log::error('Error saving color settings: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+    
     // ==================== VISITORS ====================
     public function visitors()
     {
@@ -459,5 +460,81 @@ public function warnaUpdate(Request $request)
         ];
         
         return view('admin.visitors.index', compact('visitors', 'totalVisitors', 'todayVisitors', 'uniqueVisitors', 'deviceStats', 'browserStats'));
+    }
+    
+    // ==================== MANAJEMEN ADMIN ====================
+    public function adminIndex()
+    {
+        $admins = Admin::orderBy('id')->get();
+        return view('admin.admins.index', compact('admins'));
+    }
+    
+    public function adminCreate()
+    {
+        return view('admin.admins.create');
+    }
+    
+  public function adminStore(Request $request)
+{   
+    $request->validate([
+        'email' => 'required|email|unique:admins,email',
+        'password' => 'required|min:4',
+        'nama' => 'required|string|max:100',
+        'role' => 'nullable|string|in:admin,superadmin',
+    ]);
+    
+    Admin::create([
+        'email' => $request->email,
+        'password' => $request->password,
+        'nama' => $request->nama,
+        'role' => $request->role ?? 'admin',
+    ]);
+    
+    return redirect()->route('admin.admins')->with('success', 'Admin baru berhasil ditambahkan');
+}
+    
+    public function adminEdit($id)
+    {
+        $admin = Admin::findOrFail($id);
+        return view('admin.admins.edit', compact('admin'));
+    }
+    
+    public function adminUpdate(Request $request, $id)
+    {
+        $admin = Admin::findOrFail($id);
+        
+        $request->validate([
+            'email' => 'required|email|unique:admins,email,' . $id,
+            'nama' => 'required|string|max:100',
+            'role' => 'nullable|string|in:admin,superadmin',
+            'password' => 'nullable|min:4',
+        ]);
+        
+        $data = [
+            'email' => $request->email,
+            'nama' => $request->nama,
+            'role' => $request->role ?? 'admin',
+        ];
+        
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+        
+        $admin->update($data);
+        
+        return redirect()->route('admin.admins')->with('success', 'Admin berhasil diperbarui');
+    }
+    
+    public function adminDestroy($id)
+    {
+        $admin = Admin::findOrFail($id);
+        
+        // Jangan hapus admin sendiri yang sedang login
+        if ($admin->email === session('admin_email')) {
+            return redirect()->back()->with('error', 'Tidak dapat menghapus akun sendiri');
+        }
+        
+        $admin->delete();
+        return redirect()->route('admin.admins')->with('success', 'Admin berhasil dihapus');
     }
 }

@@ -12,8 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->command->info('Starting seeder...');
-        
-        // Kosongkan tabel
+   
         try {
             DB::table('settings')->truncate();
             DB::table('profil')->truncate();
@@ -40,27 +39,32 @@ class DatabaseSeeder extends Seeder
         
         $this->command->info('Tables cleared...');
         
-        // ==================== HANYA ADMIN ====================
-        // Hapus admin lama jika ada
+    
         Admin::where('email', 'admin@mukomukokab.go.id')->delete();
         
-        // HASH YANG SUDAH TERUJI UNTUK PASSWORD 'password'
-        // Hash ini adalah hasil dari password_hash('password', PASSWORD_BCRYPT)
-        $fixedHash = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
-        
-        // Buat admin baru dengan hash yang sudah terbukti berhasil
+
         Admin::create([
             'email' => 'admin@mukomukokab.go.id',
-            'password' => $fixedHash,  // LANGSUNG PAKAI HASH, BUKAN Hash::make()
+            'password' => bcrypt('password'),
             'nama' => 'Administrator',
         ]);
         
-        // Verifikasi setelah create
+
         $admin = Admin::where('email', 'admin@mukomukokab.go.id')->first();
         if ($admin && Hash::check('password', $admin->password)) {
             $this->command->info('✅ Admin created and verified successfully!');
         } else {
             $this->command->error('❌ Admin creation failed!');
+     
+            Admin::truncate();
+            DB::table('admins')->insert([
+                'email' => 'admin@mukomukokab.go.id',
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+                'nama' => 'Administrator',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            $this->command->info('✅ Admin created with fallback hash!');
         }
         
         $this->command->info('');

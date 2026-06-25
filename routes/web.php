@@ -23,21 +23,22 @@ Route::post('/kontak', function() { return back()->with('success', 'Pesan berhas
 
 // ==================== ADMIN PANEL ====================
 Route::prefix('admin')->group(function () {
-    // Login
+    // Login (tanpa middleware)
     Route::get('/login', [AuthController::class, 'showLogin'])->name('admin.login');
     Route::post('/login', [AuthController::class, 'login'])->name('admin.login.post');
     Route::get('/captcha', [AuthController::class, 'captcha'])->name('admin.captcha');
     Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
     
-    // Middleware
+    // Middleware (hanya untuk halaman yang butuh login)
     Route::middleware(['admin.auth'])->group(function () {
+        // Dashboard
         Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         
         // Profil
         Route::get('/profil', [AdminController::class, 'profilIndex'])->name('admin.profil');
         Route::post('/profil', [AdminController::class, 'profilUpdate'])->name('admin.profil.update');
         
-        // Struktur
+        // Struktur Organisasi
         Route::get('/struktur', [StrukturController::class, 'index'])->name('admin.struktur');
         Route::post('/struktur', [StrukturController::class, 'store'])->name('admin.struktur.store');
         Route::put('/struktur/{id}', [StrukturController::class, 'update'])->name('admin.struktur.update');
@@ -101,5 +102,13 @@ Route::prefix('admin')->group(function () {
         
         // Visitors
         Route::get('/visitors', [AdminController::class, 'visitors'])->name('admin.visitors');
+        
+        // ==================== MANAJEMEN ADMIN ====================
+        Route::get('/admins', [AdminController::class, 'adminIndex'])->name('admin.admins');
+        Route::get('/admins/create', [AdminController::class, 'adminCreate'])->name('admin.admins.create');
+        Route::post('/admins', [AdminController::class, 'adminStore'])->name('admin.admins.store');
+        Route::get('/admins/{id}/edit', [AdminController::class, 'adminEdit'])->name('admin.admins.edit');
+        Route::put('/admins/{id}', [AdminController::class, 'adminUpdate'])->name('admin.admins.update');
+        Route::delete('/admins/{id}', [AdminController::class, 'adminDestroy'])->name('admin.admins.destroy');
     });
 });
